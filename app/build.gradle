@@ -61,6 +61,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
+        applicationId 'com.vidaentrepreneur'
         minSdkVersion 10
         targetSdkVersion 22
         versionCode getMyVersionCode()
