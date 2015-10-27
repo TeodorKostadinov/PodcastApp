@@ -34,12 +34,14 @@ import com.bumptech.glide.Glide;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
 
+import java.util.Date;
 import java.util.List;
 
 import de.danoeh.antennapod.R;
 import de.danoeh.antennapod.adapter.NavListAdapter;
 import de.danoeh.antennapod.core.asynctask.FeedRemover;
 import de.danoeh.antennapod.core.dialog.ConfirmationDialog;
+import de.danoeh.antennapod.core.dialog.DownloadRequestErrorDialogCreator;
 import de.danoeh.antennapod.core.event.ProgressEvent;
 import de.danoeh.antennapod.core.feed.EventDistributor;
 import de.danoeh.antennapod.core.feed.Feed;
@@ -47,6 +49,8 @@ import de.danoeh.antennapod.core.event.QueueEvent;
 import de.danoeh.antennapod.core.preferences.UserPreferences;
 import de.danoeh.antennapod.core.storage.DBReader;
 import de.danoeh.antennapod.core.storage.DBWriter;
+import de.danoeh.antennapod.core.storage.DownloadRequestException;
+import de.danoeh.antennapod.core.storage.DownloadRequester;
 import de.danoeh.antennapod.core.util.StorageUtils;
 import de.danoeh.antennapod.fragment.AddFeedFragment;
 import de.danoeh.antennapod.fragment.DownloadsFragment;
@@ -112,6 +116,8 @@ public class MainActivity extends ActionBarActivity implements NavDrawerActivity
 
     private Subscription subscription;
 
+    private Feed feedVidaEntrepreneur;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setTheme(UserPreferences.getNoTitleTheme());
@@ -119,12 +125,23 @@ public class MainActivity extends ActionBarActivity implements NavDrawerActivity
         StorageUtils.checkStorageAvailability(this);
         setContentView(R.layout.main);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(3.0f);
-
         currentTitle = getTitle();
+
+        try {
+
+            feedVidaEntrepreneur = new Feed("http://www.vidaentrepreneur.com/podcast/shows/feed.rss", new Date(0), "VIDA Entrepreneur");
+            feedVidaEntrepreneur.setPreferences(feedVidaEntrepreneur.getPreferences());
+
+            DownloadRequester.getInstance().downloadFeed(this, feedVidaEntrepreneur);
+
+        } catch (DownloadRequestException e) {
+            e.printStackTrace();
+            DownloadRequestErrorDialogCreator.newRequestErrorDialog(this,
+                    e.getMessage());
+        }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navList = (ListView) findViewById(R.id.nav_list);

@@ -128,7 +128,6 @@ public class OnlineFeedViewActivity extends ActionBarActivity {
         setTheme(UserPreferences.getTheme());
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         if (getIntent() != null && getIntent().hasExtra(ARG_TITLE)) {
             getSupportActionBar().setTitle(getIntent().getStringExtra(ARG_TITLE));
         }
