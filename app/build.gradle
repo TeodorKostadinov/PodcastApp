@@ -8,6 +8,7 @@ repositories {
     mavenCentral()
 }
 
+
 dependencies {
     compile 'com.android.support:support-v4:23.0.1'
     compile 'com.android.support:appcompat-v7:23.0.1'
@@ -52,7 +53,11 @@ def getMyVersionCode() {
 }
 
 android {
-    compileSdkVersion 22
+    useLibrary 'org.apache.http.legacy'
+}
+
+android {
+    compileSdkVersion 23
     buildToolsVersion "22.0.1"
 
     defaultConfig {

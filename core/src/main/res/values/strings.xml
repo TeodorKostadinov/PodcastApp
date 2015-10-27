@@ -4,7 +4,7 @@
     tools:ignore="MissingTranslation">
 
     <!-- Activitiy and fragment titles -->
-    <string name="app_name">AntennaPod</string>
+    <string name="app_name">VIDA Entrepreneur</string>
     <string name="feeds_label">Feeds</string>
     <string name="add_feed_label">Add Podcast</string>
     <string name="podcasts_label">PODCASTS</string>
